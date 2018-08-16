@@ -1,0 +1,41 @@
+# app_identifier("[[APP_IDENTIFIER]]") # The bundle identifier of your app
+# apple_id("[[APPLE_ID]]") # Your Apple email address
+
+
+# For more information about the Appfile, see:
+#     https://docs.fastlane.tools/advanced/#appfile
+
+ENV['APP_TARGET'] = "BM_Aws_Integration"
+ENV['APP_UNIT_TESTCASES_TARGET'] = "BM_Aws_IntegrationTests"
+ENV['APP_UI_TESTCASES_TARGET'] = "BM_Aws_IntegrationUITests"
+
+
+ENV['PROJ'] = "#{ENV['APP_TARGET']}.xcodeproj"
+ENV['WORKSPACE'] = "#{ENV['APP_TARGET']}.xcworkspace"
+
+
+ENV['DEFAULT_CONFIGURATION'] = "Debug"
+ENV['ADHOC_CONFIGURATION'] = "Adhoc"
+
+
+ENV['XCODE_LOCATION'] = "/Applications/Xcode.app"
+ENV['XCODE_VERSION'] = "9.4"
+
+
+ENV['GIT_BRANCH_FOR_ALPHA_RELEASE'] = "develop"
+
+
+ENV['CODE_COVERAGE_DIR'] = "./fastlane/code_coverage/"
+ENV['ALPHA_RELEASE_IPA_DIR'] = "./Binaries/HockeyAppBuild"
+ENV['REPORTS_DIR'] = "./fastlane/reports/*.*"
+
+
+ENV['ADHOC_EXPORT_OPTIONS_PLIST_PATH'] = "./fastlane/AdhocExportOptions.plist"
+
+
+ENV['ALPHA_RELEASE_GIT_TAG_PREFIX'] = "alpha-builds/v"
+ENV['ALPHA_RELEASE_GIT_TAG_DATE_FORMAT'] = "%Y%d%m"
+
+
+ENV['VERSION_BUMP_GIT_COMMIT_MESSAGE'] = "[skip ci] Version Bump by CI Server, for release -> %{release_name}"
+ENV['UPDATE_REPORTS_GIT_COMMIT_MESSAGE'] = "[skip ci] Update reports/documentation files by CI Server."

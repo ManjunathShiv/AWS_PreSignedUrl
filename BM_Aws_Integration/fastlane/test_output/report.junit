@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<testsuites name='BM_Aws_IntegrationUITests.xctest' tests='4' failures='0'>
+  <testsuite name='BM_Aws_IntegrationTests.BM_Aws_IntegrationTests' tests='2' failures='0'>
+    <testcase classname='BM_Aws_IntegrationTests.BM_Aws_IntegrationTests' name='testExample' time='0.001'/>
+    <testcase classname='BM_Aws_IntegrationTests.BM_Aws_IntegrationTests' name='testPerformanceExample' time='0.325'/>
+  </testsuite>
+  <testsuite name='BM_Aws_IntegrationUITests.BM_Aws_IntegrationUITests' tests='2' failures='0'>
+    <testcase classname='BM_Aws_IntegrationUITests.BM_Aws_IntegrationUITests' name='testExample' time='5.138'/>
+    <testcase classname='BM_Aws_IntegrationUITests.BM_Aws_IntegrationUITests' name='testFlow' time='8.791'/>
+  </testsuite>
+</testsuites>

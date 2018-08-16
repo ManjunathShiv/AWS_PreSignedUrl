@@ -1,0 +1,110 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+
+  desc "This lane will run before execution of other lane."
+  before_all do
+    xcode_location = ENV['XCODE_LOCATION']
+    xcode_select(xcode_location)
+  end
+
+  desc "This lane will ensure that current Xcode version is selected for AWS S3 project."
+  lane :ensure_xcode_version_for_release do
+    ensure_xcode_version(
+      version: ENV['XCODE_VERSION']
+    )
+  end
+
+  lane :tests do
+  run_tests(workspace: ENV['WORKSPACE'],
+            devices: ["iPhone X"],
+            scheme: "ßœ")
+  end
+
+  desc "This lane will run UI test-cases of AWS S3 project."
+  lane :run_ui_test_cases do
+    run_tests(
+      scheme: ENV['APP_TARGET'],
+      configuration: ENV['DEFAULT_CONFIGURATION'],
+      only_testing: ENV['APP_UI_TESTCASES_TARGET']
+    )
+  end
+
+  desc "This lane will run Unit and UI both type test-cases of BreatheMapper project."
+  lane :run_all_test_cases do
+    run_tests(
+      scheme: ENV['APP_TARGET'],
+      configuration: ENV['DEFAULT_CONFIGURATION']
+    )
+  end
+
+  #Fetch version number
+    version = get_version_number()
+
+    #Formatted Alpha Release version number.
+    alpha_release_version = version + "-alpha-" + Time.new.strftime(ENV['ALPHA_RELEASE_GIT_TAG_DATE_FORMAT'])
+    increment_version_number(
+      version_number: alpha_release_version
+    )
+
+    #Update Release Notes
+    alpha_release_name = ENV['APP_TARGET'] + alpha_release_version
+    stamp_changelog(
+      section_identifier: alpha_release_name
+    )
+
+    #Commit Version Bump
+    commit_version_bump(
+      message: ENV['VERSION_BUMP_GIT_COMMIT_MESSAGE'] % {:release_name => alpha_release_name},
+      xcodeproj: "./#{ENV['PROJ']}",
+      include: %w[/Source/BreatheMapper/CHANGELOG.md],
+      force: true
+    )
+
+    #Push to remote
+    push_to_git_remote
+  end
+
+desc "This lane will add Git Tag for Alpha Release of BreatheMapper project."
+  lane :add_git_tag_for_alpha_release do
+    #Fetch version number
+    version = get_version_number()
+    version = ((version.split('-'))[0]).strip
+
+    #Add Tag
+    git_tag = ENV['ALPHA_RELEASE_GIT_TAG_PREFIX'] + version
+    add_git_tag(
+      tag: git_tag
+    )
+
+    #Push to remote
+    push_to_git_remote
+  end
+
+  desc "This lane will do Git commit for Reports of BreatheMapper project."
+  lane :git_commit_reports_for_alpha_release do
+    #Git commit Reports folder.
+    git_commit(path: [ENV['REPORTS_DIR']], message: ENV['UPDATE_REPORTS_GIT_COMMIT_MESSAGE'])
+
+    #Push to remote
+    push_to_git_remote
+  end
+
+
+
+end

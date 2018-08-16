@@ -1,0 +1,6 @@
+framework module Pods_BM_Aws_IntegrationTests {
+  umbrella header "Pods-BM_Aws_IntegrationTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
